@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 from datetime import datetime
 from sqlalchemy.orm import Session
-from sqlalchemy import desc, and_
+from sqlalchemy import desc, and_, text
 import os
 
 from models import init_database, get_session, Measurement
@@ -388,7 +388,7 @@ async def health_check():
     try:
         # Check database connectivity
         session = get_session(engine)
-        session.execute("SELECT 1")
+        session.execute(text("SELECT 1"))
         session.close()
         db_status = "healthy"
     except Exception as e:
